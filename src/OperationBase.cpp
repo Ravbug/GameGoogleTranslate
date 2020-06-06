@@ -95,13 +95,16 @@ valuetableptr JoinerBase::import_csv(){
 	}
 	
 	for(const auto& line : lines){
-		vector<string> data;
-		sregex_token_iterator begin(line.begin(), line.end(), re, -1), end;
-		copy(begin, end, std::back_inserter(data));
+		vector<string> data = SplitterBase::string_split(line, "\t");
+		
+		for(auto i = data.size(); i < 3; i++){
+			data.push_back("");
+		}
 		
 		csvrow row;
 		for (int i = 0; i < row.size(); i++){
-			if (data[i].size() > 0){
+			//does the string start with quotations and is not empty?
+			if (data[i].size() > 1 && data[i][0] == '"'){
 				row[i] = data[i].substr(1,data[i].size()-2);
 			}
 			else{

@@ -64,7 +64,7 @@ void MinecraftJoiner::write_combined(valuetableptr table){
 					}
 				}
 				
-				row[2] = row[2].substr(0,min(insertion,row[2].size())) + " " + symbol + row[2].substr(min(insertion,row[2].size()),row[2].size());
+				row[2] = row[2].substr(0,min(insertion,row[2].size())) + " " + symbol + " " +  row[2].substr(min(insertion,row[2].size()),row[2].size());
 								
 				// Get the next occurrence from the current position
 				pos = row[1].find(symbol, pos + symbol.size());

@@ -8,7 +8,7 @@
 #pragma once
 #include "OperationBase.h"
 
-#define mc_symbols "%s","%1$s", "%2$s", "%3$s", "%4$s","%%", "%d"
+#define mc_symbols "%s","%1$s", "%2$s", "%3$s", "%4$s","%%", "%d", "\n"
 
 class MinecraftSplitter : public SplitterBase{
 	valuetableptr split_file(std::ifstream&) override;
