@@ -57,9 +57,8 @@ void MinecraftJoiner::write_combined(valuetableptr table){
 				auto insertion = range_remap(pos, 0, row[1].size(), 0, row[2].size());
 				
 				//find the next space after this spot
-				for(auto i = insertion; i < row[2].size(); ++i){
-					if (isspace(row[2][i])){
-						insertion = i;
+				for( ; insertion < row[2].size(); ++insertion){
+					if (isspace(row[2][insertion])){
 						break;
 					}
 				}
