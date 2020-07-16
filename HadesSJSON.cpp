@@ -231,6 +231,9 @@ class HadesSJSONjoiner : public JoinerBase, public HadesSJSONbase{
 		//advance the input to "]"
 		while (inputstream >> t && t != "]"){}
 		
+		//add the bracket
+		outputbuffer << "\n]\n";
+		
 		//write the remainder of the file from the original
 		while (inputstream >> t){
 			outputbuffer << t << " ";
