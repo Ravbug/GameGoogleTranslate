@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		417BA53B24C0E414001DC6A5 /* OperationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419826DD248B7739005340F8 /* OperationBase.cpp */; };
+		417BA53D24C0E4AE001DC6A5 /* HadesSJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 417BA53C24C0E4AE001DC6A5 /* HadesSJSON.cpp */; };
 		419826DE248B7739005340F8 /* OperationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419826DD248B7739005340F8 /* OperationBase.cpp */; };
 		419826E1248B7740005340F8 /* MinecraftTranslate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419826DF248B7740005340F8 /* MinecraftTranslate.cpp */; };
 /* End PBXBuildFile section */
@@ -21,10 +23,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		417BA53224C0E402001DC6A5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		411A02E9248B52B1000DEAD9 /* MinecraftSplitter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftSplitter; sourceTree = BUILT_PRODUCTS_DIR; };
+		417BA53424C0E402001DC6A5 /* HadesSJSON */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HadesSJSON; sourceTree = BUILT_PRODUCTS_DIR; };
+		417BA53C24C0E4AE001DC6A5 /* HadesSJSON.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HadesSJSON.cpp; sourceTree = SOURCE_ROOT; };
 		419826DC248B7739005340F8 /* OperationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OperationBase.h; path = src/OperationBase.h; sourceTree = SOURCE_ROOT; };
 		419826DD248B7739005340F8 /* OperationBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OperationBase.cpp; path = src/OperationBase.cpp; sourceTree = SOURCE_ROOT; };
 		419826DF248B7740005340F8 /* MinecraftTranslate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MinecraftTranslate.cpp; path = src/MinecraftTranslate.cpp; sourceTree = SOURCE_ROOT; };
@@ -33,6 +46,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		411A02E6248B52B1000DEAD9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		417BA53124C0E402001DC6A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -51,10 +71,19 @@
 			path = MinecraftSplitter;
 			sourceTree = "<group>";
 		};
+		417BA53F24C0E5D9001DC6A5 /* HadesCSV */ = {
+			isa = PBXGroup;
+			children = (
+				417BA53C24C0E4AE001DC6A5 /* HadesSJSON.cpp */,
+			);
+			name = HadesCSV;
+			sourceTree = "<group>";
+		};
 		41D1BD4C248AF98D00109D5E = {
 			isa = PBXGroup;
 			children = (
 				41D1BD57248AF98D00109D5E /* Core */,
+				417BA53F24C0E5D9001DC6A5 /* HadesCSV */,
 				411A02EA248B52B1000DEAD9 /* MinecraftSplitter */,
 				41D1BD56248AF98D00109D5E /* Products */,
 			);
@@ -64,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				411A02E9248B52B1000DEAD9 /* MinecraftSplitter */,
+				417BA53424C0E402001DC6A5 /* HadesSJSON */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +127,23 @@
 			productReference = 411A02E9248B52B1000DEAD9 /* MinecraftSplitter */;
 			productType = "com.apple.product-type.tool";
 		};
+		417BA53324C0E402001DC6A5 /* HadesSJSON */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 417BA53A24C0E402001DC6A5 /* Build configuration list for PBXNativeTarget "HadesSJSON" */;
+			buildPhases = (
+				417BA53024C0E402001DC6A5 /* Sources */,
+				417BA53124C0E402001DC6A5 /* Frameworks */,
+				417BA53224C0E402001DC6A5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HadesSJSON;
+			productName = HadesCSV;
+			productReference = 417BA53424C0E402001DC6A5 /* HadesSJSON */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -107,6 +154,9 @@
 				ORGANIZATIONNAME = Ravbug;
 				TargetAttributes = {
 					411A02E8248B52B1000DEAD9 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					417BA53324C0E402001DC6A5 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
 				};
@@ -125,6 +175,7 @@
 			projectRoot = "";
 			targets = (
 				411A02E8248B52B1000DEAD9 /* MinecraftSplitter */,
+				417BA53324C0E402001DC6A5 /* HadesSJSON */,
 			);
 		};
 /* End PBXProject section */
@@ -136,6 +187,15 @@
 			files = (
 				419826E1248B7740005340F8 /* MinecraftTranslate.cpp in Sources */,
 				419826DE248B7739005340F8 /* OperationBase.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		417BA53024C0E402001DC6A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				417BA53B24C0E414001DC6A5 /* OperationBase.cpp in Sources */,
+				417BA53D24C0E4AE001DC6A5 /* HadesSJSON.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +213,26 @@
 		411A02EF248B52B1000DEAD9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		417BA53824C0E402001DC6A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		417BA53924C0E402001DC6A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -277,6 +357,15 @@
 			buildConfigurations = (
 				411A02EE248B52B1000DEAD9 /* Debug */,
 				411A02EF248B52B1000DEAD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		417BA53A24C0E402001DC6A5 /* Build configuration list for PBXNativeTarget "HadesSJSON" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				417BA53824C0E402001DC6A5 /* Debug */,
+				417BA53924C0E402001DC6A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

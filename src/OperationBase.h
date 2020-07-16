@@ -11,6 +11,8 @@
 #include <array>
 #include <vector>
 #include <unordered_map>
+#include <regex>
+#include <unordered_set>
 
 typedef std::array<std::string, 3> csvrow;
 typedef std::vector<csvrow> valuetable;
@@ -20,14 +22,14 @@ class IOBase{
 protected:
 	std::ofstream output;						//the input file stream
 	std::ifstream input;						//the output file stream
-	std::vector<std::string> symbols;			//stores symbols for formatting
+	std::unordered_set<std::string> symbols;			//stores symbols for formatting
 public:
 	/**
 	 Set the input and output paths for this class
 	 @param inpath the file to read from
 	 @param outpath the path to write the CSV to
 	 */
-	void SetIO(const std::string& inpath, const std::string& outpath){
+	virtual void SetIO(const std::string& inpath, const std::string& outpath){
 		input = std::ifstream(inpath);
 		output = std::ofstream(outpath);
 	}
@@ -55,6 +57,7 @@ protected:
 	 */
 	std::string strip_symbols(const std::string& str);
 	
+public:
 	/**
 	 Replace all occurances of one string inside another string. Modifies the original.
 	 @param orig the string to replace
@@ -63,7 +66,6 @@ protected:
 	 */
 	static void replace_all(std::string& orig, const std::string& to_replace, const std::string& replace_with);
 	
-public:
 	
 	/**
 	 Split a string using regular expressions
@@ -90,6 +92,12 @@ protected:
 	 @return a valuetable shared pointer containing the parsed CSV
 	 */
 	valuetableptr import_csv();
+	
+	/**
+	 Re-insert the formatting symbols into each row of the table
+	 @param table the table to insert into
+	 */
+	void insert_symbols(valuetableptr table);
 	
 	/**
 	 Write the combined file to disk

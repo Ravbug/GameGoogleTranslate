@@ -46,31 +46,11 @@ void MinecraftJoiner::write_combined(valuetableptr table){
 	Document d;
 	d.Parse("{}");
 	
+	//re-add formatting
+	insert_symbols(table);
+	
+	//convert to JSON datastructure
 	for(auto& row : *table){
-		//re-add the formatting symbols
-		for(const auto& symbol : symbols){
-			// Get the first occurrence
-			auto pos = row[1].find(symbol);
-			while( pos != std::string::npos)
-			{
-				// insert the symbol into the third cell
-				auto insertion = range_remap(pos, 0, row[1].size(), 0, row[2].size());
-				
-				//find the next space after this spot
-				for( ; insertion < row[2].size(); ++insertion){
-					if (isspace(row[2][insertion])){
-						break;
-					}
-				}
-				
-				row[2] = row[2].substr(0,min(insertion,row[2].size())) + " " + symbol + " " +  row[2].substr(min(insertion,row[2].size()),row[2].size());
-								
-				// Get the next occurrence from the current position
-				pos = row[1].find(symbol, pos + symbol.size());
-			}
-		}
-		
-		
 		Value key(row[0].c_str(),d.GetAllocator());
 		Value value(row[2].c_str(),d.GetAllocator());
 		d.AddMember(key,value,d.GetAllocator());
