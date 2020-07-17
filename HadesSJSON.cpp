@@ -257,18 +257,61 @@ public:
 	}
 };
 
-int main(int argc, const char * argv[]) {
-//#define reading
-#ifdef reading
-		HadesSJSONsplitter hss;
-		hss.SetIO("Hades/GameText/MiscText.en.sjson", "Hades/GameText/MiscText.en.translated.tsv");
-		hss.Run();
-#else
-	HadesSJSONjoiner hsj;
-	hsj.SetIO("Hades/GameText/MiscText.en.translated.tsv", "Hades/GameText/MiscText2.en.sjson");
-	hsj.set_orig_file("Hades/GameText/MiscText.en.sjson");
-	hsj.Run();
-#endif
+/**
+ Check the arguments
+ @param args the argument dictionary
+ */
+bool check_args(const unordered_map<string, string>& args, bool splitting){
+	if (splitting){
+		return (args.find("i") != args.end() && args.find("o") != args.end());
+	}
+	else{
+		return (args.find("i") != args.end() && args.find("o") != args.end()) && args.find("t") != args.end();
+	}
+}
 
+void print_usage(char* program){
+	cout << "	Usage:  " << string(program) << " --s --i path/to/original.sjson --o table.tsv" << endl
+	<< "		" << string(program) << " --j --i path/to/table.tsv --t path/to/original.sjson --o translate.json" << endl;
+}
+
+int main(int argc, char** argv){
+	
+	auto opts = ParseArgs(argc, argv);
+	
+	//validate args
+	if (opts.find("s") == opts.end() && opts.find("j") == opts.end()){
+		cout << "	Must have flag: --s (split JSON), or --j (join TSV)" << endl;
+		return 2;
+	}
+	
+	if (opts.find("s") != opts.end() && opts.find("j") == opts.end()){
+		//run splitter
+		if (check_args(opts,true)){
+			HadesSJSONsplitter hss;
+			hss.SetIO(opts["i"],opts["o"]);
+			hss.Run();
+		}
+		else{
+			print_usage(argv[0]);
+			return 1;
+		}
+	}
+	else if (opts.find("s") == opts.end() && opts.find("j") != opts.end()){
+		if (check_args(opts,false)){
+			HadesSJSONjoiner hsj;
+			hsj.SetIO(opts["i"],opts["o"]);
+			hsj.set_orig_file(opts["t"]);
+			hsj.Run();
+		}
+		else{
+			print_usage(argv[0]);
+			return 1;
+		}
+	}
+	else{
+		print_usage(argv[0]);
+	}
+	
 	return 0;
 }
