@@ -108,22 +108,28 @@ protected:
 		for (const auto& entry : texts){
 			for (const auto& e : entry){
 				istringstream str(e.second);
-				char next;
-				//read until end
-				do{
-					//read until first {
-					while (str >> next && next != '{'){}
-					//assemble string unil }
-					string temp;
-					while (str >> next && next != '}'){
-						temp += next;
+				
+				//read to the first {
+				char c;
+				while (str.get(c) && c != '{');
+				int balance = 1;
+				string symbol = "{";
+				while(str.get(c)){
+					if (c == '{'){
+						++balance;
 					}
-					//add to symbols
-					if (temp.size() > 2){
-						symbols.insert("{" + temp + "}");
+					if (c == '}'){
+						--balance;
 					}
-					
-				}while (str.good());
+					symbol += c;
+					if (balance == 0){
+						symbol = trim(symbol);
+						if (symbol.size() > 2 && symbol.find('{') != string::npos && symbol.find('}') != string::npos){
+							symbols.insert(symbol);
+						}
+						symbol = "";
+					}
+				}
 			}
 		}
 		
@@ -131,6 +137,7 @@ protected:
 		symbols.insert("\\[");
 		symbols.insert("\\]");
 		symbols.insert("\\n");
+		symbols.insert("%s");
 		
 		return texts;
 	}
@@ -145,7 +152,7 @@ class HadesSJSONsplitter : public SplitterBase, public HadesSJSONbase{
 		auto texts = parse_hadesfile(instr, symbols);
 		
 		//do not translate data that is meant for the game
-		unordered_set<string> do_not_include = {"OverwriteLocalization"};
+		unordered_set<string> do_not_include = {"OverwriteLocalization","InheritFrom"};
 		
 		//convert into tablepointer
 		for (const auto& entry : texts){
@@ -204,11 +211,11 @@ class HadesSJSONjoiner : public JoinerBase, public HadesSJSONbase{
 		list<string> strs;
 		//convert each item into a SJSON string
 		for (const auto& r : texts){
-			string temp = "{\n";
+			string temp = "\t{\n";
 			for (const auto& pair : r){
-				temp += pair.first + " = \"" + pair.second + "\"\n";
+				temp += "\t\t" + pair.first + " = \"" + pair.second + "\"\n";
 			}
-			strs.push_back(temp + "}\n");
+			strs.push_back(temp + "\t}\n");
 		}
 		
 		//write to output
@@ -218,32 +225,38 @@ class HadesSJSONjoiner : public JoinerBase, public HadesSJSONbase{
 		
 		ostringstream outputbuffer;
 		
-		string t;
-		while (inputstream >> t && t != "["){
-			outputbuffer << t << " ";
+		//.get(v) reads whitespace
+		char t;
+		while (inputstream.get(t) && t != '['){
+			outputbuffer << t;
 		}
 		//once [ is found, write the replacement
-		output << "\n";
+		outputbuffer << "[\n";
 		for (const auto& str : strs){
 			outputbuffer << str;
 		}
 		
-		//advance the input to "]"
-		while (inputstream >> t && t != "]"){}
+//		//advance the input to "]"
+//		while (inputstream.get(t) && t != ']'){}
 		
-		//add the bracket
-		outputbuffer << "\n]\n";
+		//add the end sbracket
+		outputbuffer << "\n]\n}";
 		
-		//write the remainder of the file from the original
-		while (inputstream >> t){
-			outputbuffer << t << " ";
-		}
+//		//write the remainder of the file from the original
+//		while (inputstream.get(t)){
+//			outputbuffer << t;
+//		}
+	
 		
 		//multipass replace double spaces in output
 		auto str = outputbuffer.str();
 		for (int i = 0; i < 10; ++i){
 			SplitterBase::replace_all(str, "  ", " ");
 		}
+		
+		//fix OverwriteLocalization = "true" --> OverwriteLocalization = true
+		SplitterBase::replace_all(str, "OverwriteLocalization = \"true\"", "OverwriteLocalization = true");
+		
 		output << str;
 	}
 public:
