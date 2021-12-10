@@ -11,6 +11,13 @@ add_executable("MinecraftSplitter"
 )
 target_include_directories("MinecraftSplitter" PRIVATE "include")
 
+add_executable("MinecraftCreditsSplitter"
+    "src/MinecraftCreditsTranslate.cpp"
+    "src/OperationBase.cpp"
+    "src/OperationBase.h"
+)
+target_include_directories("MinecraftCreditsSplitter" PRIVATE "include")
+
 add_executable("HadesSJSON" 
     "src/HadesSJSON.cpp"
     "src/OperationBase.cpp" 
