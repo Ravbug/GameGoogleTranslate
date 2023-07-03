@@ -4,6 +4,7 @@
 #include <rapidjson/writer.h>
 #include <iostream>
 #include <filesystem>
+#include <deque>
 
 using namespace std;
 using namespace rapidjson;
