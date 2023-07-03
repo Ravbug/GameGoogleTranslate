@@ -23,3 +23,8 @@ add_executable("HadesSJSON"
     "src/OperationBase.cpp" 
     "src/OperationBase.h" 
 )
+
+add_executable(MCJSONDiff 
+    src/MinecraftJSONDiff.cpp
+)
+target_include_directories("MCJSONDiff" PRIVATE "include")
