@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 project(GameGoogleTranslate)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable("MinecraftSplitter" 
@@ -28,3 +28,8 @@ add_executable(MCJSONDiff
     src/MinecraftJSONDiff.cpp
 )
 target_include_directories("MCJSONDiff" PRIVATE "include")
+
+add_executable(MCJSONSame
+    src/MinecraftJSONSame.cpp
+)
+target_include_directories(MCJSONSame PRIVATE "include")

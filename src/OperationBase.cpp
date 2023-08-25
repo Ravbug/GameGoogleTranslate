@@ -118,7 +118,7 @@ valuetableptr JoinerBase::import_csv(){
 		//read in whole file at once (necessary for line splitting)
 		string data((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
 		
-		lines = SplitterBase::string_split(data, "\r\n");
+		lines = SplitterBase::string_split(data, "\n");
 	}
 	
 	for(const auto& line : lines){
