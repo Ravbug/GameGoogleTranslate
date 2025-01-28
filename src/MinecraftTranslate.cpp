@@ -34,6 +34,11 @@ valuetableptr MinecraftSplitter::split_file(ifstream& input){
 		row[0] = m.name.GetString();
 		row[1] = m.value.GetString();
 		row[2] = strip_symbols(row[1]);
+        
+        // get rid of newlines because they break parsers
+        replace_all(row[1],"\n",NEWLINE_MARKER);
+        replace_all(row[1],"\n",NEWLINE_MARKER);
+        replace_all(row[1],"\n",NEWLINE_MARKER);
 		
 		tableptr->push_back(row);
 	}

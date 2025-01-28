@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <regex>
 #include "OperationBase.h"
+#include "MinecraftTranslate.h"
 
 using namespace std;
 
@@ -40,8 +41,10 @@ void SplitterBase::write_table(valuetableptr tableptr){
 	
 	for(auto& row : *tableptr){
 		//replace newlines inside record with cr
-		for (auto str : row){
-			replace_all(str, "\n", "\r");
+        //replace tabs with four spaces
+		for (auto& str : row){
+            //replace_all(str, "\n", "\r");
+            //replace_all(str, "\t", "    ");
 		}
 		
 		//write each line surrounded in quotes
@@ -84,27 +87,34 @@ vector<string> SplitterBase::string_split(const std::string &str, const std::str
 void JoinerBase::insert_symbols(valuetableptr table){
 	for(auto& row : *table){
 		//re-add the formatting symbols
+        auto insertSymbol = [&](auto&& search, auto&& symbol){
+            // Get the first occurrence
+            auto pos = row[1].find(search);
+            while( pos != std::string::npos)
+            {
+                // insert the symbol into the third cell
+                auto insertion = range_remap(pos, 0, row[1].size(), 0, row[2].size());
+                
+                //find the next space after this spot
+                for( ; insertion < row[2].size(); ++insertion){
+                    if (isspace(row[2][insertion])){
+                        break;
+                    }
+                }
+                
+                row[2] = row[2].substr(0,min(insertion,row[2].size())) + " " + symbol + " " +  row[2].substr(min(insertion,row[2].size()),row[2].size());
+                
+                // Get the next occurrence from the current position
+                pos = row[1].find(symbol, pos + search.size());
+            }
+        };
+        
 		for(const auto& symbol : symbols){
-			// Get the first occurrence
-			auto pos = row[1].find(symbol);
-			while( pos != std::string::npos)
-			{
-				// insert the symbol into the third cell
-				auto insertion = range_remap(pos, 0, row[1].size(), 0, row[2].size());
-				
-				//find the next space after this spot
-				for( ; insertion < row[2].size(); ++insertion){
-					if (isspace(row[2][insertion])){
-						break;
-					}
-				}
-				
-				row[2] = row[2].substr(0,min(insertion,row[2].size())) + " " + symbol + " " +  row[2].substr(min(insertion,row[2].size()),row[2].size());
-				
-				// Get the next occurrence from the current position
-				pos = row[1].find(symbol, pos + symbol.size());
-			}
+            if (symbol != "\n"){
+                insertSymbol(symbol,symbol);
+            }
 		}
+        insertSymbol(NEWLINE_MARKER,"\n");
 	}
 }
 
